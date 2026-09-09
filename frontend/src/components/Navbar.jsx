@@ -1,6 +1,26 @@
 import React, { useState, useEffect } from 'react';
 
-const Navbar = ({ activeTab, setActiveTab, user, onLogout, setAuthViewOpen }) => {
+const Navbar = ({ activeTab, setActiveTab, user, onLogout, setAuthViewOpen, onGoToHome, onGoToSearch }) => {
+  const handleHomeClick = () => {
+    if (onGoToHome) {
+      onGoToHome();
+    } else {
+      setActiveTab('dashboard');
+    }
+  };
+
+  const handleSearchClick = () => {
+    if (onGoToSearch) {
+      onGoToSearch();
+    } else {
+      setActiveTab('dashboard');
+      setTimeout(() => {
+        const searchInput = document.querySelector('.search-input-field');
+        if (searchInput) searchInput.focus();
+      }, 100);
+    }
+  };
+
   return (
     <>
       {/* Tricolor Strip */}
@@ -13,15 +33,15 @@ const Navbar = ({ activeTab, setActiveTab, user, onLogout, setAuthViewOpen }) =>
       {/* Government Top Bar */}
       <div className="govt-topbar">
         <div>
-          <a href="#" className="skip-nav">Skip to Main Content</a>
+          <a href="#main-content" className="skip-nav">Skip to Main Content</a>
           <a href="#">Screen Reader Access</a>
         </div>
         <div>
           <span>Government of India</span>
           <a href="#">हिंदी</a>
-          <a href="#">A+</a>
-          <a href="#">A</a>
-          <a href="#">A-</a>
+          <a href="#" aria-label="Increase font size">A+</a>
+          <a href="#" aria-label="Reset font size">A</a>
+          <a href="#" aria-label="Decrease font size">A-</a>
         </div>
       </div>
 
@@ -58,33 +78,59 @@ const Navbar = ({ activeTab, setActiveTab, user, onLogout, setAuthViewOpen }) =>
         </div>
       </div>
 
-      {/* Navigation Bar */}
-      <nav className="nav-bar">
+      {/* Navigation Bar — HEURISTIC #1: aria-current for Visibility of System Status */}
+      <nav className="nav-bar" role="navigation" aria-label="Main Navigation">
         <ul>
           <li>
-            <button className={activeTab === 'dashboard' ? 'active' : ''} onClick={() => setActiveTab('dashboard')}>
+            {/* HEURISTIC #1: aria-current indicates the active page to screen readers */}
+            <button
+              className={activeTab === 'dashboard' ? 'active' : ''}
+              onClick={handleHomeClick}
+              aria-current={activeTab === 'dashboard' ? 'page' : undefined}
+            >
               🏠 Home
+              {/* HEURISTIC #7: Keyboard shortcut badge for power users */}
+              <span className="kbd-badge">Alt+1</span>
             </button>
           </li>
           <li>
-            <button className={activeTab === 'dashboard' ? '' : ''} onClick={() => setActiveTab('dashboard')}>
+            <button
+              className={activeTab === 'dashboard' ? '' : ''}
+              onClick={handleSearchClick}
+            >
               🔍 Tariff Search
+              <span className="kbd-badge">Ctrl+K</span>
             </button>
           </li>
           <li>
-            <button className={activeTab === 'guidelines' ? 'active' : ''} onClick={() => setActiveTab('guidelines')}>
+            <button
+              className={activeTab === 'guidelines' ? 'active' : ''}
+              onClick={() => setActiveTab('guidelines')}
+              aria-current={activeTab === 'guidelines' ? 'page' : undefined}
+            >
               📋 Trade Guidelines
+              <span className="kbd-badge">Alt+2</span>
             </button>
           </li>
           <li>
-            <button className={activeTab === 'currency' ? 'active' : ''} onClick={() => setActiveTab('currency')}>
+            <button
+              className={activeTab === 'currency' ? 'active' : ''}
+              onClick={() => setActiveTab('currency')}
+              aria-current={activeTab === 'currency' ? 'page' : undefined}
+            >
               💱 Exchange Rates
+              <span className="kbd-badge">Alt+3</span>
             </button>
           </li>
           {user && (
             <li>
-              <button className={activeTab === 'watchlist' ? 'active' : ''} onClick={() => setActiveTab('watchlist')}>
+              <button
+                className={activeTab === 'watchlist' ? 'active' : ''}
+                onClick={() => setActiveTab('watchlist')}
+                aria-current={activeTab === 'watchlist' ? 'page' : undefined}
+              >
                 ⭐ My Watchlist
+                <span className="kbd-badge">Alt+4</span>
               </button>
             </li>
           )}

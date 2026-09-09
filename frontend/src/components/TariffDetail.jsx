@@ -269,18 +269,31 @@ const TariffDetail = ({ product, user, apiBaseUrl, onWatchlistChange, setAuthVie
 
               <div className="form-group">
                 <label>Cargo Valuation (INR)</label>
-                <div className="input-with-addon">
+                <div className={`input-with-addon ${cargoValue && parseFloat(cargoValue) > 0 ? 'input-success' : cargoValue === '' ? '' : 'input-error'}`}>
                   <span className="input-addon">₹</span>
                   <input
                     type="text"
                     value={cargoValue}
+                    aria-label="Enter cargo value in Indian Rupees"
+                    placeholder="Enter cargo value (e.g. 1000000)"
                     onChange={(e) => {
                       const val = e.target.value;
                       if (val === '' || /^\d*\.?\d*$/.test(val)) setCargoValue(val);
                     }}
                   />
                 </div>
+                {/* ===== HEURISTIC #5: Input Validation Feedback (Error Prevention) ===== */}
+                {cargoValue !== '' && parseFloat(cargoValue) > 0 && (
+                  <div className="validation-hint valid">✓ Valid cargo value — duties will be calculated below</div>
+                )}
+                {cargoValue !== '' && (parseFloat(cargoValue) === 0 || isNaN(parseFloat(cargoValue))) && (
+                  <div className="validation-hint invalid">⚠ Please enter a positive numeric value for accurate duty computation</div>
+                )}
+                {cargoValue === '' && (
+                  <div className="validation-hint invalid">⚠ Cargo value is required to compute duty breakdown</div>
+                )}
               </div>
+
 
               <div style={{ background: 'var(--bg-light)', border: '1px solid var(--border-light)', borderRadius: 'var(--radius-sm)', padding: '14px', marginTop: '8px' }}>
                 {isImport ? (

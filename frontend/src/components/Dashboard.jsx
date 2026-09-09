@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import SearchPortal from './SearchPortal';
 import TariffDetail from './TariffDetail';
 
 const Dashboard = ({ apiBaseUrl, user, onWatchlistChange, setAuthViewOpen, setActiveTab, initialSelectedProduct }) => {
   const [selectedProduct, setSelectedProduct] = useState(initialSelectedProduct || null);
+
+  useEffect(() => {
+    setSelectedProduct(initialSelectedProduct || null);
+  }, [initialSelectedProduct]);
 
   const tradeBulletins = [
     {

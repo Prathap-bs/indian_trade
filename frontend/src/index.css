@@ -280,12 +280,12 @@ body {
 /* === HERO BANNER === */
 .hero-banner {
   position: relative;
-  width: calc(100% + 48px);
-  margin: -20px -24px 0;
+  width: 100%;
+  margin: 12px 0 24px;
   height: 320px;
   overflow: hidden;
   background: var(--dark-blue);
-  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  border-radius: var(--radius-lg);
   box-shadow: var(--shadow-md);
 }
 .hero-banner img {
@@ -1104,3 +1104,527 @@ select { cursor: pointer; }
 ::-webkit-scrollbar-track { background: #f0f0f0; }
 ::-webkit-scrollbar-thumb { background: #ccc; border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: #aaa; }
+
+/* ===================================================================
+   HEURISTIC EVALUATION ENHANCEMENTS
+   Nielsen's 10 Usability Principles — Added Components
+   =================================================================== */
+
+/* === H1: BREADCRUMB NAVIGATION (Visibility of System Status) === */
+.breadcrumb-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 0 0;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+.breadcrumb-bar .breadcrumb-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.breadcrumb-bar .breadcrumb-item.active {
+  color: var(--navy-blue);
+  font-weight: 700;
+}
+.breadcrumb-bar .breadcrumb-separator {
+  color: var(--text-light);
+  font-size: 0.72rem;
+}
+
+/* === H1: LOADING SPINNER (Visibility of System Status) === */
+.loading-spinner {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 2.5px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  vertical-align: middle;
+}
+.loading-spinner.dark {
+  border-color: rgba(30, 58, 138, 0.15);
+  border-top-color: var(--navy-blue);
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* No Results State */
+.no-results-state {
+  text-align: center;
+  padding: 30px 20px;
+  animation: fadeIn 0.3s ease;
+}
+.no-results-state .no-results-icon {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  opacity: 0.5;
+}
+.no-results-state p {
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  margin-bottom: 4px;
+}
+.no-results-state .no-results-hint {
+  color: var(--text-light);
+  font-size: 0.8rem;
+}
+
+/* === H3: CONFIRMATION DIALOG (User Control & Freedom) === */
+.confirm-dialog-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.15s ease;
+}
+.confirm-dialog {
+  background: #fff;
+  border-radius: var(--radius-lg);
+  max-width: 400px;
+  width: 90%;
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  animation: dialogSlideIn 0.25s ease;
+}
+@keyframes dialogSlideIn {
+  from { opacity: 0; transform: scale(0.92) translateY(10px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+.confirm-dialog-header {
+  padding: 20px 24px 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.confirm-dialog-header .dialog-icon {
+  font-size: 1.8rem;
+}
+.confirm-dialog-header h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-dark);
+}
+.confirm-dialog-body {
+  padding: 0 24px 20px;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+.confirm-dialog-actions {
+  display: flex;
+  gap: 10px;
+  padding: 16px 24px;
+  background: var(--bg-light);
+  border-top: 1px solid var(--border-light);
+  justify-content: flex-end;
+}
+.confirm-dialog-actions .btn-cancel {
+  padding: 9px 20px;
+  background: #fff;
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-body);
+  cursor: pointer;
+  font-family: var(--font-main);
+  transition: all 0.2s;
+}
+.confirm-dialog-actions .btn-cancel:hover {
+  background: var(--bg-light);
+}
+.confirm-dialog-actions .btn-danger {
+  padding: 9px 20px;
+  background: var(--accent-red);
+  border: none;
+  border-radius: var(--radius-sm);
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: var(--font-main);
+  transition: all 0.2s;
+}
+.confirm-dialog-actions .btn-danger:hover {
+  background: #dc2626;
+}
+
+/* === H3: TOAST NOTIFICATION WITH UNDO (User Control & Freedom) === */
+.toast-container {
+  position: fixed;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3000;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+}
+.toast {
+  background: var(--dark-blue);
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: var(--radius-md);
+  font-size: 0.88rem;
+  font-weight: 500;
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  animation: toastSlideUp 0.35s ease;
+  min-width: 300px;
+}
+@keyframes toastSlideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.toast.toast-exit {
+  animation: toastSlideDown 0.3s ease forwards;
+}
+@keyframes toastSlideDown {
+  from { opacity: 1; transform: translateY(0); }
+  to { opacity: 0; transform: translateY(20px); }
+}
+.toast .toast-message { flex: 1; }
+.toast .toast-undo-btn {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: var(--saffron);
+  padding: 4px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: var(--font-main);
+  transition: all 0.2s;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.toast .toast-undo-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+.toast .toast-close-btn {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  font-size: 1.1rem;
+  padding: 0 4px;
+  transition: color 0.2s;
+}
+.toast .toast-close-btn:hover { color: #fff; }
+
+/* === H5: VALIDATION FEEDBACK (Error Prevention) === */
+.validation-hint {
+  font-size: 0.72rem;
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.validation-hint.valid { color: var(--green-india); }
+.validation-hint.invalid { color: var(--accent-red); }
+.input-error {
+  border-color: var(--accent-red) !important;
+  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.15) !important;
+}
+.input-success {
+  border-color: var(--green-india) !important;
+  box-shadow: 0 0 0 2px rgba(22, 163, 74, 0.1) !important;
+}
+
+/* === H7: KEYBOARD SHORTCUT BADGES (Flexibility & Efficiency) === */
+.kbd-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  font-size: 0.62rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-family: 'Courier New', monospace;
+  color: rgba(255, 255, 255, 0.6);
+  margin-left: 8px;
+  vertical-align: middle;
+  letter-spacing: 0.5px;
+}
+.shortcuts-help-panel {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.15s ease;
+}
+.shortcuts-help-card {
+  background: #fff;
+  border-radius: var(--radius-lg);
+  max-width: 480px;
+  width: 90%;
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  animation: dialogSlideIn 0.25s ease;
+}
+.shortcuts-help-card .shortcuts-header {
+  background: linear-gradient(135deg, var(--navy-blue), var(--dark-blue));
+  padding: 18px 24px;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.shortcuts-help-card .shortcuts-header h3 {
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+.shortcuts-help-card .shortcuts-header button {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1.3rem;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.shortcuts-help-card .shortcuts-header button:hover { color: #fff; }
+.shortcuts-list {
+  padding: 16px 24px 20px;
+}
+.shortcut-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border-light);
+}
+.shortcut-row:last-child { border-bottom: none; }
+.shortcut-row .shortcut-label {
+  font-size: 0.88rem;
+  color: var(--text-body);
+  font-weight: 500;
+}
+.shortcut-row .shortcut-keys {
+  display: flex;
+  gap: 4px;
+}
+.shortcut-row .shortcut-keys kbd {
+  background: var(--bg-body);
+  border: 1px solid var(--border-medium);
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 0.78rem;
+  font-family: 'Courier New', monospace;
+  color: var(--text-dark);
+  font-weight: 700;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+/* === H10: HELP TOOLTIP (Help & Documentation) === */
+.help-tooltip-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+.help-tooltip-icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: help;
+  transition: all 0.2s;
+  margin-left: 8px;
+}
+.help-tooltip-icon:hover {
+  background: rgba(255, 255, 255, 0.35);
+}
+.help-tooltip-content {
+  display: none;
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--dark-blue);
+  color: #f1f5f9;
+  padding: 14px 18px;
+  border-radius: var(--radius-md);
+  font-size: 0.8rem;
+  line-height: 1.55;
+  width: 320px;
+  box-shadow: var(--shadow-lg);
+  z-index: 100;
+  text-align: left;
+  font-weight: 400;
+}
+.help-tooltip-content::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-bottom-color: var(--dark-blue);
+  border-top: none;
+}
+.help-tooltip-wrap:hover .help-tooltip-content {
+  display: block;
+  animation: fadeIn 0.2s ease;
+}
+.help-tooltip-content strong {
+  color: var(--saffron);
+  font-weight: 700;
+}
+
+/* === H10: GOVERNMENT FOOTER (Help & Documentation) === */
+.govt-footer {
+  background: linear-gradient(180deg, var(--dark-blue) 0%, #0a1628 100%);
+  color: rgba(255, 255, 255, 0.7);
+  padding: 40px 40px 16px;
+  margin-top: 48px;
+  border-top: 4px solid var(--saffron);
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 36px;
+  margin-bottom: 28px;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+@media (max-width: 768px) {
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 24px; }
+}
+@media (max-width: 480px) {
+  .footer-grid { grid-template-columns: 1fr; }
+}
+.footer-section h4 {
+  color: var(--saffron);
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin-bottom: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+  padding-bottom: 8px;
+}
+.footer-section h4::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 30px;
+  height: 2px;
+  background: var(--saffron);
+  border-radius: 1px;
+}
+.footer-section p {
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.55);
+  line-height: 1.7;
+}
+.footer-section a {
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.6);
+  text-decoration: none;
+  line-height: 2;
+  display: block;
+  transition: color 0.2s, padding-left 0.2s;
+}
+.footer-section a:hover {
+  color: var(--saffron);
+  padding-left: 4px;
+}
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.footer-bottom p {
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.35);
+}
+.footer-tricolor {
+  display: flex;
+  gap: 0;
+  height: 3px;
+  width: 60px;
+  border-radius: 2px;
+  overflow: hidden;
+}
+.footer-tricolor span { flex: 1; }
+.footer-tricolor .fc-saffron { background: var(--saffron); }
+.footer-tricolor .fc-white { background: #fff; }
+.footer-tricolor .fc-green { background: var(--green-india); }
+
+/* === H9: ENHANCED ERROR STATES (Error Recovery) === */
+.error-recovery-card {
+  text-align: center;
+  padding: 30px 24px;
+  background: #fff;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+.error-recovery-card .error-icon {
+  font-size: 2.5rem;
+  margin-bottom: 12px;
+}
+.error-recovery-card h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 6px;
+}
+.error-recovery-card p {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+.error-recovery-card .recovery-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* === H1: SKELETON LOADER (Visibility of System Status) === */
+@keyframes pulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.15; }
+}
+.skeleton-loader {
+  background: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 50%, #e2e8f0 75%);
+  background-size: 200% 100%;
+  animation: skeletonShimmer 1.5s infinite;
+  border-radius: var(--radius-sm);
+}
+@keyframes skeletonShimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}

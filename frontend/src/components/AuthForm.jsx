@@ -9,6 +9,14 @@ const AuthForm = ({ apiBaseUrl, onLoginSuccess, onClose }) => {
   const [success, setSuccess] = useState(null);
   const [loading, setLoading] = useState(false);
   const [passwordStrength, setPasswordStrength] = useState('');
+  const [emailValid, setEmailValid] = useState(null); // null = not checked, true/false
+
+  // ===== HEURISTIC #5: Real-time Email Validation (Error Prevention) =====
+  useEffect(() => {
+    if (!email) { setEmailValid(null); return; }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    setEmailValid(emailRegex.test(email));
+  }, [email]);
 
   useEffect(() => {
     if (isLogin || !password) { setPasswordStrength(''); return; }
@@ -79,8 +87,21 @@ const AuthForm = ({ apiBaseUrl, onLoginSuccess, onClose }) => {
 
           <div className="input-block">
             <label>Email Address / Username</label>
-            <input type="email" placeholder="name@company.com" required value={email}
-              onChange={(e) => setEmail(e.target.value)} />
+            <input
+              type="email"
+              placeholder="name@company.com"
+              required
+              value={email}
+              className={email ? (emailValid ? 'input-success' : 'input-error') : ''}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            {/* ===== HEURISTIC #5: Email Validation Hint (Error Prevention) ===== */}
+            {email && emailValid && (
+              <div className="validation-hint valid">✓ Valid email format</div>
+            )}
+            {email && emailValid === false && (
+              <div className="validation-hint invalid">⚠ Please enter a valid email (e.g. name@company.com)</div>
+            )}
           </div>
 
           <div className="input-block">

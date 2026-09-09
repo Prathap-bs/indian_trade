@@ -62,9 +62,26 @@ const CurrencyExchange = ({ apiBaseUrl }) => {
           </p>
         </div>
         <button className="btn-secondary" onClick={fetchRates} disabled={loading}>
-          {loading ? 'Refreshing...' : '🔄 Refresh Rates'}
+          {loading ? (<><span className="loading-spinner dark" style={{ marginRight: '6px' }}></span> Refreshing</>) : '🔄 Refresh Rates'}
         </button>
       </div>
+
+      {/* ===== HEURISTIC #9: Enhanced Error Recovery (Help Users Recognize, Diagnose, Recover) ===== */}
+      {error && (
+        <div className="error-recovery-card" style={{ marginBottom: '24px' }}>
+          <div className="error-icon">⚠️</div>
+          <h3>Failed to Load Exchange Rates</h3>
+          <p>
+            {error.includes('Failed') 
+              ? 'The currency rate service is temporarily unavailable. This may be due to a network issue or external API downtime.' 
+              : error}
+          </p>
+          <div className="recovery-actions">
+            <button className="btn-primary" onClick={fetchRates}>🔄 Retry Now</button>
+            <button className="btn-secondary" onClick={() => setError(null)}>Dismiss</button>
+          </div>
+        </div>
+      )}
 
       <div className="currency-grid">
         {/* Rates Table */}
@@ -74,7 +91,6 @@ const CurrencyExchange = ({ apiBaseUrl }) => {
             <span style={{ fontSize: '0.72rem', fontWeight: '400' }}>Source: {provider}</span>
           </div>
           <div className="card-body" style={{ padding: '0' }}>
-            {error && <div className="alert-box danger" style={{ margin: '12px' }}>{error}</div>}
 
             {loading ? (
               <div style={{ padding: '20px', textAlign: 'center', color: '#999' }}>Loading rates...</div>
@@ -103,8 +119,10 @@ const CurrencyExchange = ({ apiBaseUrl }) => {
               })
             )}
           </div>
-          <div style={{ padding: '10px 16px', fontSize: '0.72rem', color: 'var(--text-muted)', textAlign: 'right', borderTop: '1px solid var(--border-light)' }}>
-            Last updated: {lastUpdate}
+          {/* ===== HEURISTIC #1: Live Update Indicator (Visibility of System Status) ===== */}
+          <div style={{ padding: '10px 16px', fontSize: '0.72rem', color: 'var(--text-muted)', textAlign: 'right', borderTop: '1px solid var(--border-light)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <span style={{ color: 'var(--green-india)', fontWeight: '600' }}>● Live Data</span>
+            <span>Last updated: {lastUpdate}</span>
           </div>
         </div>
 
